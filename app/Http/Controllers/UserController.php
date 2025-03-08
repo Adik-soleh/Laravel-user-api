@@ -94,7 +94,32 @@ class UserController extends Controller
         return response()->json($user, 201);
     }
 
-
+    /**
+     * Perbarui user berdasarkan ID.
+     * 
+     * @OA\Put(
+     *      path="/users/{id}",
+     *      tags={"Users"},
+     *      summary="Perbarui user",
+     *      @OA\Parameter(
+     *          name="id",
+     *          in="path",
+     *          required=true,
+     *          description="ID user",
+     *          @OA\Schema(type="string", format="uuid")
+     *      ),
+     *      @OA\RequestBody(
+     *          required=true,
+     *          @OA\JsonContent(
+     *              @OA\Property(property="name", type="string"),
+     *              @OA\Property(property="email", type="string", format="email"),
+     *              @OA\Property(property="age", type="integer")
+     *          )
+     *      ),
+     *      @OA\Response(response=200, description="User berhasil diperbarui"),
+     *      @OA\Response(response=404, description="User tidak ditemukan")
+     * )
+     */
     public function update(Request $request, $id)
     {
         $validated = $request->validate([
@@ -108,7 +133,6 @@ class UserController extends Controller
 
         return response()->json($user);
     }
-
 
     public function destroy($id)
     {
