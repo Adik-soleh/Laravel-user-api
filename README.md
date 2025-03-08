@@ -15,7 +15,7 @@ API sederhana untuk mengelola data pengguna dengan fitur CRUD, validasi, logging
 
 ### **1. Clone Repository**
 ```bash
-git clone https://github.com/username/user-api.git
+git clone https://github.com/Adik-soleh/Laravel-user-api.git
 cd user-api
 ```
 
@@ -66,7 +66,7 @@ curl -X GET http://127.0.0.1:8000/api/users
 ```bash
 curl -X POST http://127.0.0.1:8000/api/users \
      -H "Content-Type: application/json" \
-     -d '{"name": "John Doe", "email": "john@example.com", "age": 25}'
+     -d '{"name": "Panjul", "email": "john@example.com", "age": 25}'
 ```
 
 
