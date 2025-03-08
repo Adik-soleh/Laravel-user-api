@@ -69,4 +69,40 @@ curl -X POST http://127.0.0.1:8000/api/users \
      -d '{"name": "Panjul", "email": "john@example.com", "age": 25}'
 ```
 
+---
 
+## **Dokumentasi API dengan Swagger**
+
+Dokumentasi API dapat diakses melalui:
+
+🔗 **Swagger UI:** [http://127.0.0.1:8000/api/documentation](http://127.0.0.1:8000/api/documentation)
+
+Swagger otomatis mendokumentasikan endpoint API dengan contoh request dan response.
+
+---
+
+## **Menjalankan Pengujian dengan Jest**
+
+Aplikasi ini menggunakan **Jest** untuk menguji endpoint API.
+
+### **1. Pindah Directory**
+
+```bash
+cd test-jest
+```
+
+### **2. Install Jest**
+
+```bash
+npm install --save-dev jest supertest
+```
+
+### **3. Menjalankan Tes**
+
+```bash
+npm test
+```
+
+Pastikan server Laravel sudah berjalan sebelum menjalankan pengujian.
+
+---
