@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Middleware;
 
 use Closure;
@@ -9,12 +10,21 @@ class LogRequestMiddleware
 {
     public function handle(Request $request, Closure $next)
     {
-        Log::info('Request Info', [
+        Log::info('Incoming Request', [
             'method' => $request->method(),
-            'url' => $request->url(),
-            'body' => $request->all()
+            'url' => $request->fullUrl(),
+            'ip' => $request->ip(),
+            'headers' => $request->headers->all(),
+            'body' => $request->except(['password']), 
         ]);
 
-        return $next($request);
+        $response = $next($request);
+
+        Log::info('Response Sent', [
+            'status' => $response->status(),
+            'body' => $response->getContent(),
+        ]);
+
+        return $response;
     }
 }
