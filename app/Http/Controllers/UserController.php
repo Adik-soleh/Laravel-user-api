@@ -21,8 +21,9 @@ class UserController extends Controller
     }
 
     public function store(Request $request)
-    {
-        $request->validate([
+{
+    try {
+        $validated = $request->validate([
             'name' => 'required|string',
             'email' => 'required|email|unique:users',
             'age' => 'required|integer|min:1'
@@ -30,13 +31,18 @@ class UserController extends Controller
 
         $user = User::create([
             'id' => Str::uuid(),
-            'name' => $request->name,
-            'email' => $request->email,
-            'age' => $request->age,
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'age' => $validated['age'],
         ]);
 
         return response()->json($user, 201);
+    } catch (\Illuminate\Validation\ValidationException $e) {
+        return response()->json(['error' => $e->errors()], 422);
+    } catch (\Exception $e) {
+        return response()->json(['error' => 'Something went wrong'], 500);
     }
+}
 
     public function update(Request $request, $id)
     {
