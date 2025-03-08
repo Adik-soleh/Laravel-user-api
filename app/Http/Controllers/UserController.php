@@ -61,6 +61,26 @@ class UserController extends Controller
         return response()->json($user);
     }
 
+    /**
+     * Buat user baru.
+     * 
+     * @OA\Post(
+     *      path="/users",
+     *      tags={"Users"},
+     *      summary="Buat user baru",
+     *      @OA\RequestBody(
+     *          required=true,
+     *          @OA\JsonContent(
+     *              required={"name", "email", "age"},
+     *              @OA\Property(property="name", type="string"),
+     *              @OA\Property(property="email", type="string", format="email"),
+     *              @OA\Property(property="age", type="integer")
+     *          )
+     *      ),
+     *      @OA\Response(response=201, description="User berhasil dibuat"),
+     *      @OA\Response(response=422, description="Validasi gagal")
+     * )
+     */
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -73,6 +93,7 @@ class UserController extends Controller
 
         return response()->json($user, 201);
     }
+
 
     public function update(Request $request, $id)
     {
