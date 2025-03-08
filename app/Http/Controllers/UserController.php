@@ -84,9 +84,9 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'name' => 'required|string',
+            'name'  => 'required|string',
             'email' => 'required|email|unique:users',
-            'age' => 'required|integer|min:1'
+            'age'   => 'required|integer|min:1'
         ]);
 
         $user = User::create(array_merge($validated, ['id' => Str::uuid()]));
@@ -123,9 +123,9 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         $validated = $request->validate([
-            'name' => 'sometimes|required|string',
+            'name'  => 'sometimes|required|string',
             'email' => "sometimes|required|email|unique:users,email,{$id}",
-            'age' => 'sometimes|required|integer|min:1'
+            'age'   => 'sometimes|required|integer|min:1'
         ]);
 
         $user = User::findOrFail($id);
@@ -134,6 +134,24 @@ class UserController extends Controller
         return response()->json($user);
     }
 
+    /**
+     * Hapus user berdasarkan ID.
+     * 
+     * @OA\Delete(
+     *      path="/users/{id}",
+     *      tags={"Users"},
+     *      summary="Hapus user",
+     *      @OA\Parameter(
+     *          name="id",
+     *          in="path",
+     *          required=true,
+     *          description="ID user",
+     *          @OA\Schema(type="string", format="uuid")
+     *      ),
+     *      @OA\Response(response=200, description="User berhasil dihapus"),
+     *      @OA\Response(response=404, description="User tidak ditemukan")
+     * )
+     */
     public function destroy($id)
     {
         $user = User::findOrFail($id);
