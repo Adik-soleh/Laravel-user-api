@@ -90,9 +90,9 @@ class UserController extends Controller
     {
         try {
             $validated = $request->validate([
-                'name'  => 'required|string',
+                'name' => 'required|string',
                 'email' => 'required|email|unique:users',
-                'age'   => 'required|integer|min:1'
+                'age' => 'required|integer|min:1'
             ]);
 
             $user = User::create(array_merge($validated, ['id' => Str::uuid()]));
@@ -138,9 +138,9 @@ class UserController extends Controller
 
         try {
             $validated = $request->validate([
-                'name'  => 'sometimes|required|string',
+                'name' => 'sometimes|required|string',
                 'email' => "sometimes|required|email|unique:users,email,{$id}",
-                'age'   => 'sometimes|required|integer|min:1'
+                'age' => 'sometimes|required|integer|min:1'
             ]);
 
             $user->update($validated);
