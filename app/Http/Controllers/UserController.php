@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Str;
 use OpenApi\Annotations as OA;
+use App\Services\ApiResponseService;
 
 /**
  * @OA\Info(
@@ -32,9 +34,9 @@ class UserController extends Controller
      *      )
      * )
      */
-    public function index()
+    public function index(): JsonResponse
     {
-        return response()->json(User::all());
+        return ApiResponseService::send('Berhasil mendapatkan daftar user', false, User::all());
     }
 
     /**
@@ -55,10 +57,13 @@ class UserController extends Controller
      *      @OA\Response(response=404, description="User tidak ditemukan")
      * )
      */
-    public function show($id)
+    public function show($id): JsonResponse
     {
-        $user = User::findOrFail($id);
-        return response()->json($user);
+        $user = User::find($id);
+        if (!$user) {
+            return ApiResponseService::send('User tidak ditemukan', true, null, 404);
+        }
+        return ApiResponseService::send('User ditemukan', false, $user);
     }
 
     /**
@@ -81,17 +86,21 @@ class UserController extends Controller
      *      @OA\Response(response=422, description="Validasi gagal")
      * )
      */
-    public function store(Request $request)
+    public function store(Request $request): JsonResponse
     {
-        $validated = $request->validate([
-            'name'  => 'required|string',
-            'email' => 'required|email|unique:users',
-            'age'   => 'required|integer|min:1'
-        ]);
+        try {
+            $validated = $request->validate([
+                'name'  => 'required|string',
+                'email' => 'required|email|unique:users',
+                'age'   => 'required|integer|min:1'
+            ]);
 
-        $user = User::create(array_merge($validated, ['id' => Str::uuid()]));
+            $user = User::create(array_merge($validated, ['id' => Str::uuid()]));
 
-        return response()->json($user, 201);
+            return ApiResponseService::send('User berhasil dibuat', false, $user, 201);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return ApiResponseService::send('Validasi gagal', true, $e->errors(), 422);
+        }
     }
 
     /**
@@ -120,18 +129,26 @@ class UserController extends Controller
      *      @OA\Response(response=404, description="User tidak ditemukan")
      * )
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $id): JsonResponse
     {
-        $validated = $request->validate([
-            'name'  => 'sometimes|required|string',
-            'email' => "sometimes|required|email|unique:users,email,{$id}",
-            'age'   => 'sometimes|required|integer|min:1'
-        ]);
+        $user = User::find($id);
+        if (!$user) {
+            return ApiResponseService::send('User tidak ditemukan', true, null, 404);
+        }
 
-        $user = User::findOrFail($id);
-        $user->update($validated);
+        try {
+            $validated = $request->validate([
+                'name'  => 'sometimes|required|string',
+                'email' => "sometimes|required|email|unique:users,email,{$id}",
+                'age'   => 'sometimes|required|integer|min:1'
+            ]);
 
-        return response()->json($user);
+            $user->update($validated);
+
+            return ApiResponseService::send('User berhasil diperbarui', false, $user);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return ApiResponseService::send('Validasi gagal', true, $e->errors(), 422);
+        }
     }
 
     /**
@@ -152,11 +169,15 @@ class UserController extends Controller
      *      @OA\Response(response=404, description="User tidak ditemukan")
      * )
      */
-    public function destroy($id)
+    public function destroy($id): JsonResponse
     {
-        $user = User::findOrFail($id);
+        $user = User::find($id);
+        if (!$user) {
+            return ApiResponseService::send('User tidak ditemukan', true, null, 404);
+        }
+
         $user->delete();
 
-        return response()->json(['message' => 'User deleted']);
+        return ApiResponseService::send('User berhasil dihapus', false);
     }
 }
