@@ -1,5 +1,11 @@
 # **User API - Laravel 12**
+Proyek ini adalah RESTful API User Management menggunakan Laravel 12 dan MySQL. API ini memungkinkan pengguna untuk melakukan operasi CRUD 
+(Create, Read, Update, Delete) validasi, logging, dan dokumentasi menggunakan Swagger. pada entitas User dengan atribut berikut:
 
+id (UUID)
+name (string)
+email (string, unique)
+age (number)
 API sederhana untuk mengelola data pengguna dengan fitur CRUD, validasi, logging, dan dokumentasi menggunakan Swagger.
 
 ## **Fitur**
@@ -66,20 +72,24 @@ curl -X GET http://127.0.0.1:8000/api/users
 ```bash
 curl -X POST http://127.0.0.1:8000/api/users \
      -H "Content-Type: application/json" \
-     -d '{"name": "Panjul", "email": "john@example.com", "age": 25}'
+     -d '{"name": "Panjul", "email": "panjul@example.com", "age": 25}'
 ```
 
 ---
 
-## **Dokumentasi API dengan Swagger**
+## Menjalankan Swagger UI
+Swagger digunakan untuk mendokumentasikan API.
 
-Dokumentasi API dapat diakses melalui:
+1. **Jalankan Perintah untuk Generate Dokumentasi**
+   ```bash
+   php artisan l5-swagger:generate
+   ```
 
-🔗 **Swagger UI:** [http://127.0.0.1:8000/api/documentation](http://127.0.0.1:8000/api/documentation)
-
-Swagger otomatis mendokumentasikan endpoint API dengan contoh request dan response.
-
----
+2. **Akses Swagger UI**
+   Setelah server berjalan, buka browser dan akses:
+   ```
+   http://127.0.0.1:8000/api/documentation
+   ```
 
 ## **Menjalankan Pengujian dengan Jest**
 
