@@ -3,6 +3,9 @@
     "info": {
         "title": "User API",
         "description": "Dokumentasi API untuk manajemen User",
+        "contact": {
+            "email": "adiksoleh4@gmail.com"
+        },
         "version": "1.0.0"
     },
     "servers": [
@@ -17,8 +20,7 @@
                     "Users"
                 ],
                 "summary": "Ambil semua user",
-                "description": "Ambil semua user.",
-                "operationId": "7e2f5799553ec93c9c43e2a58490d447",
+                "operationId": "a1b19b42aa163c7998a5c0538ba4a685",
                 "responses": {
                     "200": {
                         "description": "Berhasil mendapatkan daftar user",
@@ -40,8 +42,7 @@
                     "Users"
                 ],
                 "summary": "Buat user baru",
-                "description": "Buat user baru.",
-                "operationId": "a1fce870c566eb5fc0cf3178ec5d2fed",
+                "operationId": "ed01c47ac59d25f66a30a7e852647606",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -85,8 +86,7 @@
                     "Users"
                 ],
                 "summary": "Ambil user berdasarkan ID",
-                "description": "Ambil user berdasarkan ID.",
-                "operationId": "910a0c7cf580e1c605648d82a4e57f46",
+                "operationId": "f5ff9aba50e69896435ed554ad4533b0",
                 "parameters": [
                     {
                         "name": "id",
@@ -120,8 +120,7 @@
                     "Users"
                 ],
                 "summary": "Perbarui user",
-                "description": "Perbarui user berdasarkan ID.",
-                "operationId": "ddfe232db1870b82493bf8bd25596d37",
+                "operationId": "9a3b45be44427740dfca16ee70e1ff86",
                 "parameters": [
                     {
                         "name": "id",
@@ -170,8 +169,7 @@
                     "Users"
                 ],
                 "summary": "Hapus user",
-                "description": "Hapus user berdasarkan ID.",
-                "operationId": "43dd20becb1f47444e484cbb18ce345c",
+                "operationId": "134875479c17ed7e12d1df347e42842a",
                 "parameters": [
                     {
                         "name": "id",
